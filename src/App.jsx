@@ -246,7 +246,7 @@ function Home({ onBook }) {
   }, [])
   return <main>
     <section className="hero page-frame">
-      <div className="hero-copy"><h1>We make <em>customer education</em> your growth drive.</h1></div>
+      <div className="hero-copy"><h1>We make <em>customer education</em> your growth driver</h1></div>
       <div className="hero-bottom">
         <p>We help post-revenue SaaS teams audit, prioritize, and refresh product knowledge assets so customers, support, success, sales, and new users stay aligned with what the product actually does today.</p>
         <div className="hero-booking"><button className="hero-input" onClick={onBook}><span>What’s your work email?</span><span className="hero-input-cta">Book a free intro session <ArrowRight size={14} weight="bold" /></span></button><small>Built for teams whose product moves faster than their content system.</small></div>

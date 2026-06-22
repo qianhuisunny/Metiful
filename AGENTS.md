@@ -25,7 +25,7 @@ When implementing from a selected generated mock, treat that image as the source
 - Keep the shared header brand as “Metiful” only; do not append “/ Content Velocity.”
 - Use Mintlify's current marketing site as the visual benchmark across both pages: Inter-led typography, compact fixed navigation, immersive dark hero, centered messaging, pill controls, rounded product frames, pale-gray section bands, restrained borders, and generous white space.
 - Preserve Metiful's orange text accent for labels, emphasis, active states, and small signals. Keep Metiful's content, routes, resource-article evidence, and Cal.com booking behavior.
-- Home hero tagline: “We make customer education your growth drive.” Highlight “customer education” in orange.
+- Home hero tagline: “We make customer education your growth driver”. Highlight “customer education” in orange.
 - Keep the Home hero free of announcement banners and eyebrow text above the tagline.
 - Replace the former Home “The Problem” section with “The Context.” Parse the customer-lifecycle screenshot into native, responsive text and data components; do not embed the screenshot itself.
 - Keep every uppercase section subtitle small and left-aligned.
