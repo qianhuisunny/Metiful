@@ -34,7 +34,7 @@ When implementing from a selected generated mock, treat that image as the source
 - Pair Context and Problems as adjacent light, rounded panels on desktop, stacking them on smaller screens. Keep exactly four native problem nodes: Manual Content Updates / Repurposing, Scattered Educational Assets, Resource Constraints, and Lack of Strategy.
 - On Home, place “Our Offerings” before “The System,” and keep “Delivered as a service. Designed as an operating system.” as the final section before the footer.
 - Keep the Home “Our Offerings” label and “Start with clarity. Build momentum when ready.” heading left-aligned.
-- Keep exactly three service offerings: Content Clarity Audit ($1,500), SaaS Academy built from scratch ($10,000), and Ongoing Monthly Partnership ($2,000/month).
+- Keep exactly three service offerings: Content Clarity Audit ($1,500); “Turn your messy documents into SaaS academy to build trust, deepen usage, and reduce support” (price label: “Let’s talk”); and Ongoing Monthly Partnership ($2,000/month).
 - Feature Service 02 as the dominant, largest offering card.
 - In the Home System stage selector, use three pencil-scribble zones: a small Service 01 circle around stage 01, one large Service 02 circle around stages 02–04, and a small Service 03 circle around stage 05. Label them only “Service 01,” “Service 02,” and “Service 03”—never prefix the labels with circle numbers.
 - Home System section label: “HOW WE SOLVE THAT”. Heading: “Human strategizing, AI scaling, Human gating”.

@@ -74,7 +74,7 @@ const systems = [
 
 const offerings = [
   {
-    label: 'Offering 02', title: 'SaaS Academy, Built from Scratch', price: '$10,000', duration: 'A complete academy foundation, built with you', featured: true,
+    label: 'Offering 02', title: 'Turn your messy documents into SaaS academy to build trust, deepen usage, and reduce support', price: 'Let’s talk', duration: 'A complete academy foundation, built with you', featured: true,
     body: 'For SaaS teams ready to turn scattered product knowledge into a customer education destination. We design the academy around real roles and workflows, then build the structure, launch-ready modules, and operating rhythm from the ground up.',
     includes: ['Role-by-workflow curriculum architecture', 'Dual navigation and academy information design', 'Launch-ready atomic modules and templates', 'Governance, measurement, and handoff system'], cta: 'Book a free intro session',
   },
