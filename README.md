@@ -1,6 +1,6 @@
 # Metiful
 
-Live site: https://qianhuisunny.github.io/
+Live site: https://qianhuisunny.github.io/Metiful/
 
 Two-page React website for Metiful: Home and Case Study. The Home page contains all offerings, and every booking action opens Gabrielle Sun's live Cal.com calendar.
 

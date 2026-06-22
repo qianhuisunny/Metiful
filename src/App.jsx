@@ -3,6 +3,15 @@ import { ArrowRight, ArrowUpRight, ArrowsOut, Check, Circle, CurrencyDollar, Han
 import Cal, { getCalApi } from '@calcom/embed-react'
 import { CALENDAR_LINK } from './config'
 
+const BASE_PATH = import.meta.env.BASE_URL.replace(/\/$/, '')
+const browserPath = (path) => `${BASE_PATH}${path === '/' ? '/' : path}`
+const appPath = (pathname) => {
+  if (!BASE_PATH) return pathname
+  const stripped = pathname.startsWith(BASE_PATH) ? pathname.slice(BASE_PATH.length) : pathname
+  return stripped || '/'
+}
+const asset = (path) => `${import.meta.env.BASE_URL}${path.replace(/^\//, '')}`
+
 const navItems = [
   { label: 'Home', href: '/' },
   { label: 'Resources', href: '/resources' },
@@ -125,12 +134,14 @@ function usePath() {
     : resourcePaths.includes(pathname)
       ? pathname
       : '/'
-  const [path, setPath] = useState(() => normalizePath(window.location.pathname))
+  const [path, setPath] = useState(() => normalizePath(appPath(window.location.pathname)))
   useEffect(() => {
-    if (window.location.pathname !== path) window.history.replaceState({}, '', path)
+    const expectedPath = browserPath(path)
+    if (window.location.pathname !== expectedPath) window.history.replaceState({}, '', `${expectedPath}${window.location.hash}`)
     const onPopState = () => {
-      const nextPath = normalizePath(window.location.pathname)
-      if (window.location.pathname !== nextPath) window.history.replaceState({}, '', nextPath)
+      const nextPath = normalizePath(appPath(window.location.pathname))
+      const expectedNextPath = browserPath(nextPath)
+      if (window.location.pathname !== expectedNextPath) window.history.replaceState({}, '', `${expectedNextPath}${window.location.hash}`)
       setPath(nextPath)
     }
     window.addEventListener('popstate', onPopState)
@@ -140,8 +151,8 @@ function usePath() {
     const target = new URL(href, window.location.origin)
     const targetPath = normalizePath(target.pathname)
     const targetHash = target.hash
-    const targetUrl = `${targetPath}${targetHash}`
-    const currentUrl = `${normalizePath(window.location.pathname)}${window.location.hash}`
+    const targetUrl = `${browserPath(targetPath)}${targetHash}`
+    const currentUrl = `${window.location.pathname}${window.location.hash}`
     const scrollToTarget = () => {
       if (targetHash) document.getElementById(targetHash.slice(1))?.scrollIntoView({ behavior: 'smooth', block: 'start' })
       else window.scrollTo({ top: 0, behavior: 'smooth' })
@@ -159,27 +170,21 @@ function usePath() {
 }
 
 function AppLink({ href, navigate, className = '', children, onClick }) {
-  return <a href={href} className={className} onClick={(event) => { event.preventDefault(); onClick?.(); navigate(href) }}>{children}</a>
+  const target = new URL(href, window.location.origin)
+  const browserHref = `${browserPath(target.pathname)}${target.hash}`
+  return <a href={browserHref} className={className} onClick={(event) => { event.preventDefault(); onClick?.(); navigate(href) }}>{children}</a>
 }
 
 function Header({ path, navigate, onBook }) {
   const [open, setOpen] = useState(false)
   useEffect(() => setOpen(false), [path])
-  const onAnchorClick = (event) => {
-    setOpen(false)
-    if (path !== '/') return
-    event.preventDefault()
-    const target = new URL(event.currentTarget.href)
-    window.history.pushState({}, '', `/${target.hash}`)
-    document.getElementById(target.hash.slice(1))?.scrollIntoView({ behavior: 'smooth', block: 'start' })
-  }
   return (
     <header className={`site-header ${path === '/' ? 'site-header-home' : ''}`}>
       <div className="header-inner">
         <AppLink href="/" navigate={navigate} className="brand"><Circle size={10} weight="fill" /><strong>Metiful</strong></AppLink>
         <nav className="desktop-nav" aria-label="Main navigation">
           {headerNavItems.map((item) => item.anchor
-            ? <a key={item.href} href={item.href} onClick={onAnchorClick}>{item.label}</a>
+            ? <AppLink key={item.href} {...item} navigate={navigate}>{item.label}</AppLink>
             : <AppLink key={item.href} {...item} navigate={navigate} className={path === item.href || (item.href === '/resources' && path.startsWith('/resources/')) ? 'active' : ''}>{item.label}</AppLink>)}
         </nav>
         <button className="button button-dark header-cta" onClick={onBook}>Let’s talk <ArrowUpRight size={14} weight="bold" /></button>
@@ -187,7 +192,7 @@ function Header({ path, navigate, onBook }) {
       </div>
       {open && <nav className="mobile-nav" aria-label="Mobile navigation">
         {headerNavItems.map((item) => item.anchor
-          ? <a key={item.href} href={item.href} onClick={onAnchorClick}>{item.label}</a>
+          ? <AppLink key={item.href} {...item} navigate={navigate} onClick={() => setOpen(false)}>{item.label}</AppLink>
           : <AppLink key={item.href} {...item} navigate={navigate}>{item.label}</AppLink>)}
         <button className="button button-dark" onClick={onBook}>Let’s talk <ArrowUpRight size={14} /></button>
       </nav>}
@@ -246,7 +251,7 @@ function Home({ onBook }) {
         <p>We help post-revenue SaaS teams audit, prioritize, and refresh product knowledge assets so customers, support, success, sales, and new users stay aligned with what the product actually does today.</p>
         <div className="hero-booking"><button className="hero-input" onClick={onBook}><span>What’s your work email?</span><span className="hero-input-cta">Book a free intro session <ArrowRight size={14} weight="bold" /></span></button><small>Built for teams whose product moves faster than their content system.</small></div>
       </div>
-      <div className="hero-preview"><img src="/content-system-preview.png" alt="Metiful content system showing context assembly" /></div>
+      <div className="hero-preview"><img src={asset('/content-system-preview.png')} alt="Metiful content system showing context assembly" /></div>
     </section>
 
     <section className="lifecycle-pressure-section" id="the-bottleneck" aria-label="The Bottleneck">
@@ -307,7 +312,7 @@ function Home({ onBook }) {
           <div className="system-service-note system-service-note-1"><strong>Service 01</strong></div>
           <div className="system-service-note system-service-note-2"><strong>Service 02</strong></div>
           <div className="system-service-note system-service-note-3"><strong>Service 03</strong></div>
-          <img className="system-map-scribble" src="/system-tabs-scribble.png?v=2" alt="" aria-hidden="true" />
+          <img className="system-map-scribble" src={asset('/system-tabs-scribble.png?v=2')} alt="" aria-hidden="true" />
           <div className="system-tabs" role="tablist" aria-label="Content velocity system">{systems.map((item, index) => <button key={item.label} id={`system-tab-${index}`} className={index === activeSystem ? 'active' : ''} onClick={() => setActiveSystem(index)} onKeyDown={(event) => {
             if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return
             event.preventDefault()
@@ -335,7 +340,7 @@ function Home({ onBook }) {
       </div>
       <div className="service-map">
         <div className="scribble-diagram" aria-label="Four-circle service model: Circle 1 is the Content Clarity Audit; Circles 2 through 4 form the SaaS Academy build; Circle 3 continues into the ongoing monthly partnership.">
-          <img src="/service-offerings-scribble.png" alt="Four overlapping pencil-scribble circles" />
+          <img src={asset('/service-offerings-scribble.png')} alt="Four overlapping pencil-scribble circles" />
           <div className="circle-label circle-label-1"><span>Circle 01</span><strong>Clarity audit</strong><small>$1,500</small></div>
           <div className="circle-label circle-label-2"><span>Circle 02</span><strong>Academy core</strong><small>Service 02</small></div>
           <div className="circle-label circle-label-3"><span>Circle 03</span><strong>Evolution loop</strong><small>02 → 03</small></div>
@@ -360,7 +365,7 @@ function ResourceCard({ navigate, href, featured = false, eyebrow, title, summar
       <p>{summary}</p>
       <span className="resource-card-link">Read resource <ArrowUpRight size={15} weight="bold" /></span>
     </div>
-    <figure className="resource-card-image"><img src={image} alt={imageAlt} /></figure>
+    <figure className="resource-card-image"><img src={asset(image)} alt={imageAlt} /></figure>
   </AppLink>
 }
 
@@ -408,7 +413,7 @@ function ResourceArticleHero({ navigate, eyebrow, title, summary, meta, image, i
       <p className="resource-article-dek">{summary}</p>
       <div className="resource-article-meta">{meta.map(([label, value]) => <div key={label}><span>{label}</span><strong>{value}</strong></div>)}</div>
     </div>
-    <figure className="resource-article-cover"><img src={image} alt={imageAlt} /></figure>
+    <figure className="resource-article-cover"><img src={asset(image)} alt={imageAlt} /></figure>
   </header>
 }
 
@@ -460,7 +465,7 @@ function OpenAIResource({ navigate, onBook }) {
         </div>
         <div className="academy-crawl-grid">
           <figure className="case-image-frame academy-screen">
-            <img src="/case-studies/openai-academy-content.png" alt="OpenAI Academy content library showing collections, filters, and content cards" />
+            <img src={asset('/case-studies/openai-academy-content.png')} alt="OpenAI Academy content library showing collections, filters, and content cards" />
             <figcaption>Academy content library · source-system review</figcaption>
           </figure>
           <div className="crawl-results">
@@ -486,7 +491,7 @@ function OpenAIResource({ navigate, onBook }) {
           ].map(([count, title, body]) => <article key={title}><strong>{count}</strong><h4>{title}</h4><p>{body}</p></article>)}
         </div>
         <figure className="case-image-frame academy-community-screen">
-          <img src="/case-studies/openai-academy-communities.png" alt="OpenAI Academy specialized community tracks for work users, admins, champions, builders, and education audiences" />
+          <img src={asset('/case-studies/openai-academy-communities.png')} alt="OpenAI Academy specialized community tracks for work users, admins, champions, builders, and education audiences" />
           <figcaption>Specialized tracks make audience segmentation visible, but do not yet create a complete adoption journey.</figcaption>
         </figure>
       </section>
@@ -554,7 +559,7 @@ function ClearVuResource({ navigate, onBook }) {
           ['03', 'Build atomic modules', 'Keep every lesson short, single-task, and swappable when the product changes.', '/case-studies/clearvu-atomic-modules.png'],
         ].map(([number, title, body, image]) => <article className="clearvu-step" key={number}>
           <div className="clearvu-step-copy"><span>{number}</span><h3>{title}</h3><p>{body}</p></div>
-          <figure className="case-image-frame"><img src={image} alt={`ClearVu-IQ work sample: ${title}`} /></figure>
+          <figure className="case-image-frame"><img src={asset(image)} alt={`ClearVu-IQ work sample: ${title}`} /></figure>
         </article>)}
       </section>
 
