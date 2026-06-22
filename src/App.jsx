@@ -36,7 +36,7 @@ const systems = [
   },
   {
     number: '02', label: 'Context Assembly', eyebrow: '02. CONTEXT ASSEMBLY',
-    title: 'Dynamically assemble all the context.',
+    title: 'We keep all your context as a single source of truth',
     body: 'Every session pulls from durable company knowledge and the live conversation, creating a working context layer that is specific to your product, your voice, and your audience.',
     points: ['Content repository', 'In-session memory', 'Reusable context assembled at the moment of creation'],
     visual: 'context',
