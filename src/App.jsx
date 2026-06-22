@@ -48,7 +48,7 @@ const systems = [
   },
   {
     number: '03', label: 'Content Creation', eyebrow: '03. CONTENT CREATION',
-    title: 'Create with the whole context in the room.',
+    title: 'Create multimedia content with proven workflows',
     body: 'We move from strategy to useful, on-brand assets without losing the product truth, audience nuance, or internal knowledge that makes the work credible.',
     points: ['Context-rich briefs and outlines', 'AI-assisted, human-shaped production', 'Enablement, education, and customer-facing assets'],
     visualLabel: 'CREATION PIPELINE',

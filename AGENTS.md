@@ -39,5 +39,6 @@ When implementing from a selected generated mock, treat that image as the source
 - In the Home System stage selector, use three pencil-scribble zones: a small Service 01 circle around stage 01, one large Service 02 circle around stages 02–04, and a small Service 03 circle around stage 05. Label them only “Service 01,” “Service 02,” and “Service 03”—never prefix the labels with circle numbers.
 - Home System section label: “HOW WE SOLVE THAT”. Heading: “Human strategizing, AI scaling, Human gating”.
 - In the Home System stage selector, title the “02 Context Assembly” panel “We keep all your context as a single source of truth”.
+- In the Home System stage selector, title the “03 Content Creation” panel “Create multimedia content with proven workflows”.
 - Treat Option B (“Pressure Box”) from `Lifecycle Sections.html` as the source of truth for the Home Context and Problems redesign: pair a lifecycle orbit panel with a four-force pressure diagram in adjacent rounded cards, using Metiful orange instead of the concept’s green.
 - In the Home lifecycle orbit, distribute all seven stage icons at equal angular intervals on one shared radius, keep the tracer animation linear, and use clearly readable labels (about 14 px desktop / 13 px mobile).
